@@ -66,7 +66,7 @@ public class MainFrame extends javax.swing.JFrame {
         antistefanoRadioButton = new javax.swing.JRadioButton();
         insertButton = new javax.swing.JButton();
         saveTextButton = new javax.swing.JButton();
-        thresholdSlider = new javax.swing.JSlider();
+        jSpinner1 = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -120,7 +120,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        thresholdSlider.setMaximum(1000);
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -152,7 +152,7 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(stefanoRadioButton)
                             .addComponent(antistefanoRadioButton)
                             .addComponent(keyField, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(thresholdSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -175,8 +175,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(encryptCheckBox)
                     .addComponent(saveTextButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(thresholdSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(browseCoverButton)
@@ -328,10 +328,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTextField keyField;
     private javax.swing.JButton saveTextButton;
     private javax.swing.JRadioButton stefanoRadioButton;
     private javax.swing.JTextArea textArea;
-    private javax.swing.JSlider thresholdSlider;
     // End of variables declaration//GEN-END:variables
 }

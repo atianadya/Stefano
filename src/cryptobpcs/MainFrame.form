@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Component class="javax.swing.ButtonGroup" name="buttonGroup">
     </Component>
@@ -59,7 +59,7 @@
                           <Component id="keyField" alignment="0" min="-2" pref="165" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="thresholdSlider" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="jSpinner1" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -89,8 +89,8 @@
                   <Component id="encryptCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="saveTextButton" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="27" max="32767" attributes="0"/>
-              <Component id="thresholdSlider" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="33" max="32767" attributes="0"/>
+              <Component id="jSpinner1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="browseCoverButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -187,9 +187,11 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveTextButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JSlider" name="thresholdSlider">
+    <Component class="javax.swing.JSpinner" name="jSpinner1">
       <Properties>
-        <Property name="maximum" type="int" value="1000"/>
+        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+          <SpinnerModel initial="1" maximum="10" minimum="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
+        </Property>
       </Properties>
     </Component>
   </SubComponents>
