@@ -6,7 +6,20 @@
 package cryptobpcs;
 
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -81,7 +94,18 @@ public class StegaDialog extends javax.swing.JDialog {
 
     private void saveImageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveImageButtonActionPerformed
         // TODO add your handling code here:
-        
+
+        String filename = "stringpthhhh";
+        BufferedImage img = InputImage.getImage();
+        File outputfile = new File(filename);
+        try {
+            ImageIO.write(img, "png", outputfile);
+                JOptionPane.showMessageDialog(this, "Yheeeeyy", "Success", JOptionPane.INFORMATION_MESSAGE);
+            
+        } catch (IOException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Neeeeyy!", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_saveImageButtonActionPerformed
 
     /**
