@@ -16,10 +16,12 @@ import javax.imageio.ImageIO;
  */
 public class InputImage {
     static BufferedImage img = null;
+    static String filename;
     
     public static void setImage(String path) {
         try {
             img = ImageIO.read(new File(path));
+            filename = path;
         } catch (IOException e) {
         
         }    
@@ -27,6 +29,10 @@ public class InputImage {
     
     public static BufferedImage getImage() {
         return img;
+    }
+    
+    public static String getFilename() {
+        return filename;
     }
     
     public static Boolean isNull() {

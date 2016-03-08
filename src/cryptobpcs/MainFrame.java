@@ -7,8 +7,12 @@ package cryptobpcs;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -54,8 +58,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         buttonGroup = new javax.swing.ButtonGroup();
         browseCoverButton = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        textArea = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         encryptCheckBox = new javax.swing.JCheckBox();
@@ -65,8 +67,8 @@ public class MainFrame extends javax.swing.JFrame {
         stefanoRadioButton = new javax.swing.JRadioButton();
         antistefanoRadioButton = new javax.swing.JRadioButton();
         insertButton = new javax.swing.JButton();
-        saveTextButton = new javax.swing.JButton();
         jSpinner1 = new javax.swing.JSpinner();
+        browseInputButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,10 +78,6 @@ public class MainFrame extends javax.swing.JFrame {
                 browseCoverButtonActionPerformed(evt);
             }
         });
-
-        textArea.setColumns(20);
-        textArea.setRows(5);
-        jScrollPane2.setViewportView(textArea);
 
         jLabel1.setText("Message");
 
@@ -113,14 +111,15 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        saveTextButton.setText("Save Text");
-        saveTextButton.addActionListener(new java.awt.event.ActionListener() {
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
+
+        browseInputButton.setText("Input Message");
+        browseInputButton.setToolTipText("");
+        browseInputButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveTextButtonActionPerformed(evt);
+                browseInputButtonActionPerformed(evt);
             }
         });
-
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -138,15 +137,11 @@ public class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(extractButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(encryptCheckBox)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(saveTextButton))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel1)))
-                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(encryptCheckBox)
+                            .addComponent(browseInputButton))
+                        .addGap(168, 168, 168)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(stefanoRadioButton)
@@ -163,19 +158,16 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(keyField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15)
-                        .addComponent(stefanoRadioButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(antistefanoRadioButton)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(encryptCheckBox)
-                    .addComponent(saveTextButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                    .addComponent(keyField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(browseInputButton))
+                .addGap(13, 13, 13)
+                .addComponent(stefanoRadioButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(antistefanoRadioButton)
+                .addGap(19, 19, 19)
+                .addComponent(encryptCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -223,10 +215,22 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void extractButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_extractButtonActionPerformed
         if (!InputImage.isNull()) {
-            // extract message from image
-            // put message in text area
-            // ???
-            // profit
+            String filename = InputImage.getFilename() + "-extract.txt";
+            String message = "";
+            try {
+
+                // extract message from image
+                
+                if (encryptCheckBox.isSelected()) {
+                    // decrypt
+                    String keyword = keyField.getText();
+                    message = VigenereExtended.decipher(message, keyword);
+                }
+                
+                MessageIO.saveFile(filename, message);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_extractButtonActionPerformed
 
@@ -255,32 +259,21 @@ public class MainFrame extends javax.swing.JFrame {
         stegaDialog.setVisible(true);
     }//GEN-LAST:event_insertButtonActionPerformed
 
-    private void saveTextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveTextButtonActionPerformed
+    private void browseInputButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseInputButtonActionPerformed
+        // TODO add your handling code here:
         JFileChooser chooser = new JFileChooser();
-        FileFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
-        chooser.addChoosableFileFilter(filter);
-        BufferedWriter writer = null;
-        int returnval = chooser.showSaveDialog(this);
-        if (returnval == JFileChooser.APPROVE_OPTION) {
-            File file = chooser.getSelectedFile();
-            String filename = file.getPath();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+        chooser.setFileFilter(filter);
+        int returnVal = chooser.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            System.out.println(chooser.getSelectedFile().getPath());
             try {
-                writer = new BufferedWriter( new FileWriter( filename+".txt"));
-                writer.write(textArea.getText());
-                writer.close();
-                JOptionPane.showMessageDialog(this, "Yheeeeyy",
-                        "Success", JOptionPane.INFORMATION_MESSAGE);
+                MessageIO.setMessage(chooser.getSelectedFile().getPath(), Charset.defaultCharset());
             } catch (IOException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(this, "Neeeeyy!",
-                        "Error", JOptionPane.INFORMATION_MESSAGE);
             }
-            
         }
-        if (returnval == JFileChooser.CANCEL_OPTION) {
-            System.out.println("Cancel");
-        }
-    }//GEN-LAST:event_saveTextButtonActionPerformed
+    }//GEN-LAST:event_browseInputButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -320,6 +313,7 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton antistefanoRadioButton;
     private javax.swing.JButton browseCoverButton;
+    private javax.swing.JButton browseInputButton;
     private javax.swing.JButton browseStefanoButton;
     private javax.swing.ButtonGroup buttonGroup;
     private javax.swing.JCheckBox encryptCheckBox;
@@ -327,11 +321,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton insertButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTextField keyField;
-    private javax.swing.JButton saveTextButton;
     private javax.swing.JRadioButton stefanoRadioButton;
-    private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
 }
