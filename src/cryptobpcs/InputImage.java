@@ -5,37 +5,29 @@
  */
 package cryptobpcs;
 
+import imageprocessor.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 
 /**
  *
  * @author atia
  */
 public class InputImage {
-    static BufferedImage img = null;
-    static String filename;
+    public static Image img = new Image();
     
     public static void setImage(String path) {
-        try {
-            img = ImageIO.read(new File(path));
-            filename = path;
-        } catch (IOException e) {
-        
-        }    
+        img.load(path);
     }
     
     public static BufferedImage getImage() {
-        return img;
+        return img.getBI();
     }
-    
-    public static String getFilename() {
-        return filename;
-    }
+	
+	public static String getFilename() {
+		return img.getLoc();
+	}
     
     public static Boolean isNull() {
-        return img==null;
+        return img.isNull();
     }
 }
