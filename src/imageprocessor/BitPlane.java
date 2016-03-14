@@ -79,6 +79,23 @@ public class BitPlane {
 		return retval;
 	}
 	
+	public int getBitInt(int x, int y) {
+		try {
+			if (bp[x][y]) {
+				return 1;
+			} else {
+				return 0;
+			}
+		} catch (Exception ex) {
+			System.out.println("ERROR");
+			System.out.println("wanted: "+x+","+y);
+			System.out.println("max: "+width+","+height);
+			ex.printStackTrace(System.out);
+			System.exit(1);
+			return 0;
+		}
+	}
+	
 	public boolean getBit(int x, int y) {
 		try {
 			return bp[x][y];

@@ -41,6 +41,15 @@ public class BytePlane {
 		}
 	}
 	
+	public int getByteAtLoc(int x, int y) {
+		int retval = 0;
+		for (int i=0; i<8; i++) {
+			retval = retval & bp[i].getBitInt(x, y);
+			retval = retval<<1;
+		}
+		return retval;
+	}
+	
 	public void writePlanes(String name) {
 		for (int b=0; b<8; b++) {
 			BufferedImage img = new BufferedImage(width, height, TYPE_USHORT_GRAY);

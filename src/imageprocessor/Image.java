@@ -86,7 +86,20 @@ public class Image {
 			green.writePlanes("g");
 			blue.writePlanes("b");
 		}
-		
+	}
+	
+	public void reconstructBI() {
+		int width = img.getWidth();
+		int height = img.getHeight();
+		int rgb;
+		for (int i=0; i<width; i++) {
+			for (int j=0; j<height; j++) {
+				rgb = blue.getByteAtLoc(i, j);
+				rgb = rgb & (green.getByteAtLoc(i, j)<<8);
+				rgb = rgb & (blue.getByteAtLoc(i, j)<<16);
+				img.setRGB(i, j, rgb);
+			}
+		}
 	}
 	
 	public int getPossibleInsertions(int thresh) {
@@ -115,14 +128,12 @@ public class Image {
 		for (int i=0; i<len;) {
 			stillworking = false;
 			if (Rcur <= Rtot) {
-				//insert
 				red.insert(Rcur, thresh, msg);
 				i++;
 				Rcur++;
 				stillworking = true;
 			}
 			if (Gcur <= Gtot) {
-				//insert
 				green.insert(Rcur, thresh, msg);
 				i++;
 				Gcur++;
@@ -138,12 +149,14 @@ public class Image {
 				throw Exception("run out of insertion space");
 			}
 		}
+		reconstructBI();
 	}
 	
 	public String getData(int thresh) throws java.lang.Exception {
 		String retval = "";
 		int len = getPossibleInsertions(thresh);
 		byte[] msg = new byte[len];
+		byte[] msgnew;
 		int Rtot = red.getPossibleInsertions(thresh);
 		int Gtot = green.getPossibleInsertions(thresh);
 		int Btot = blue.getPossibleInsertions(thresh);
@@ -154,21 +167,28 @@ public class Image {
 		for (int i=0; i<len;) {
 			stillworking = false;
 			if (Rcur <= Rtot) {
-				//insert
-				red.insert(Rcur, thresh, msg);
+				msgnew = red.get(Rcur, thresh);
+				for (int mln=0; mln<8; mln++) {
+					msg[i+mln] = msgnew[mln];
+				}
 				i++;
 				Rcur++;
 				stillworking = true;
 			}
 			if (Gcur <= Gtot) {
-				//insert
-				green.insert(Rcur, thresh, msg);
+				msgnew = green.get(Rcur, thresh);
+				for (int mln=0; mln<8; mln++) {
+					msg[i+mln] = msgnew[mln];
+				}
 				i++;
 				Gcur++;
 				stillworking = true;
 			}
 			if (Bcur <= Btot) {
-				blue.insert(Rcur, thresh, msg);
+				msgnew = blue.get(Rcur, thresh);
+				for (int mln=0; mln<8; mln++) {
+					msg[i+mln] = msgnew[mln];
+				}
 				i++;
 				Bcur++;
 				stillworking = true;
