@@ -146,20 +146,20 @@ public class Image {
 				stillworking = true;
 			}
 			if (!stillworking) {
-				throw Exception("run out of insertion space");
+				throw new Exception("run out of insertion space");
 			}
 		}
 		reconstructBI();
 	}
 	
 	public String getData(int thresh) throws java.lang.Exception {
-		String retval = "";
-		int len = getPossibleInsertions(thresh);
-		byte[] msg = new byte[len];
+		String retval;
+		int len = getPossibleInsertions(thresh)-300;
+		byte[] msg = new byte[len+1000];
 		byte[] msgnew;
-		int Rtot = red.getPossibleInsertions(thresh);
-		int Gtot = green.getPossibleInsertions(thresh);
-		int Btot = blue.getPossibleInsertions(thresh);
+		int Rtot = red.getPossibleInsertions(thresh)-100;
+		int Gtot = green.getPossibleInsertions(thresh)-100;
+		int Btot = blue.getPossibleInsertions(thresh)-100;
 		int Rcur = 1;
 		int Gcur = 1;
 		int Bcur = 1;
@@ -194,13 +194,10 @@ public class Image {
 				stillworking = true;
 			}
 			if (!stillworking) {
-				throw Exception("something wrong... loop not responding");
+				throw new Exception("something wrong... loop not responding");
 			}
 		}
+		retval = new String (msg, Charset.defaultCharset());
 		return retval;
-	}
-
-	private Exception Exception(String run_out_of_insertion_space) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 }

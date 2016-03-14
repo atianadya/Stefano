@@ -73,7 +73,7 @@ public class BitPlane {
 		byte retval = 0;
 		for (int i=0; i<8; i++) {
 			if (x[i]) {
-				retval = (byte) (retval & (1<<i));
+				retval = (byte) (retval | (1<<i));
 			}
 		}
 		return retval;
