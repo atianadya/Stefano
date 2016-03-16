@@ -34,11 +34,13 @@ public class BitPlane {
 		bp[x][y] = value;
 	}
 	
-	public void insert88Bit(byte[] data) {
+	public void insert88Bit(int x, int y, byte[] data) {
 		assert(width == 8 && height == 8);
-		for (int i=0; i<8; i++){ 
-			for (int j=0; j<8; j++){ 
-				bp[j][i] = byte2bool(data[i])[j];
+		int dx = (x)*bs;
+		int dy = (y)*bs;
+		for (int i=0; i<bs; i++) {
+			for (int j=0; j<bs; j++) {
+				bp[dx+i][dy+j] = byte2bool(data[i])[j];
 			}
 		}
 	}

@@ -112,7 +112,7 @@ public class BytePlane {
 						num ++;
 						if (num == n) {
 							//put
-							bp[b].getBlock(i, j).insert88Bit(data);
+							bp[b].insert88Bit(i, j, data);
 						}
 					}
 				}
@@ -125,6 +125,7 @@ public class BytePlane {
 			//can be optimized.
 			int num = 0;
 			for (int b=7; b>=0; b--) {
+			//for (int b=0; b<8; b++) {
 				int sbwidth = bp[b].getSBwidth();
 				int sbheight = bp[b].getSBheight();
 				for (int i=0; i<sbwidth; i++) {

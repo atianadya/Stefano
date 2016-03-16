@@ -116,6 +116,7 @@ public class Image {
 	
 	public void insertData(int thresh, String message) throws java.lang.Exception {
 		assert (message.length()%8==0);
+		assert (message.length()<getPossibleInsertions(thresh));
 		byte[] msg = message.getBytes(Charset.defaultCharset());
 		int Rtot = red.getPossibleInsertions(thresh);
 		int Gtot = green.getPossibleInsertions(thresh);
@@ -154,12 +155,12 @@ public class Image {
 	
 	public String getData(int thresh) throws java.lang.Exception {
 		String retval;
-		int len = getPossibleInsertions(thresh)-300;
-		byte[] msg = new byte[len+1000];
 		byte[] msgnew;
 		int Rtot = red.getPossibleInsertions(thresh)-100;
 		int Gtot = green.getPossibleInsertions(thresh)-100;
 		int Btot = blue.getPossibleInsertions(thresh)-100;
+		int len = Rtot+Gtot+Btot;
+		byte[] msg = new byte[len+32];
 		int Rcur = 1;
 		int Gcur = 1;
 		int Bcur = 1;
@@ -171,7 +172,7 @@ public class Image {
 				for (int mln=0; mln<8; mln++) {
 					msg[i+mln] = msgnew[mln];
 				}
-				i++;
+				i = i+8;
 				Rcur++;
 				stillworking = true;
 			}
@@ -180,7 +181,7 @@ public class Image {
 				for (int mln=0; mln<8; mln++) {
 					msg[i+mln] = msgnew[mln];
 				}
-				i++;
+				i = i+8;
 				Gcur++;
 				stillworking = true;
 			}
@@ -189,7 +190,7 @@ public class Image {
 				for (int mln=0; mln<8; mln++) {
 					msg[i+mln] = msgnew[mln];
 				}
-				i++;
+				i = i+8;
 				Bcur++;
 				stillworking = true;
 			}
